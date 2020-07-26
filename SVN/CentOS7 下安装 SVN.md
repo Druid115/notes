@@ -110,7 +110,7 @@ admin = rw
 
 - 编辑 svnserve.conf 文件
 
-![](E:\学习资料\笔记\images\20190809132550.png)``````
+![](../images/20190809132550.png)
 
 ​       anon-access = none：表示禁止匿名用户访问。
 

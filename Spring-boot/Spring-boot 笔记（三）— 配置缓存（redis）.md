@@ -11,7 +11,7 @@ Java Caching 定义了5个核心接口，分别是 CachingProvider，CacheManage
 
 - Expiry 每一个存储在 Cache 中的条目有一个定义的有效期。一旦超过这个时间，条目为过期的状态。一旦过期，条目将不可访问、更新和删除。缓存有效期可以通过 ExpiryPolicy 设置。
 
-![](E:\学习资料\笔记\images\20190703154751.png)
+![](../images/20190703154751.png)
 
 
 

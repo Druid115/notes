@@ -235,7 +235,7 @@ chmod -R 775 /db/
 
 启动 Xmanger - passive，选择第二个（选择第一个会出现弹出层的弹出层无法显示的问题）。
 
-![](E:\学习资料\笔记\images\20190820183022.png)
+![](../images/20190820183022.png)
 
 ~~~shell
 su - oracle
@@ -295,7 +295,7 @@ lsnrctl start
 
 1. 此处的 SID 必须和 oracle 用户的环境变量 ORACLE_SID 设置相同。
 
-![](E:\学习资料\笔记\images\20190820195202.png)
+![](../images/20190820195202.png)
 
 2. 不配置 OEM（Oracle Enterprise Manager 企业管理器，是通过一组 Oracle 程序，为管理分布式环境提供管理服务），耗费系统资源。
 3. 存储类型选择：文件系统，选择第三个使用 OMF。
