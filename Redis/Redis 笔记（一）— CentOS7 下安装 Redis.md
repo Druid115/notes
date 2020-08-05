@@ -29,16 +29,16 @@ bind  0.0.0.0
 # 保护模式，默认只允许本地链接
 protected-mode no
 
-# 代表开启守护进程模式。此时是单进程多线程的模式，redis 将在后台运行，并将 pid 写入 redis.conf--pidfile 文件中，此时 redis将一直运行，除非手动 kill。默认为 no，当前界面将进入 redis 的命令行界面，exit 强制退出或者关闭连接工具（xshell等）都会导致redis 进程退出
+# 代表开启守护进程模式。此时是单进程多线程的模式，redis 将在后台运行，并将 pid 写入 redis.conf--pidfile 文件中，此时 redis将一直运行，除非手动 kill。默认为 no，当前界面将进入 redis 的命令行界面，exit 强制退出或者关闭连接工具（ xshell 等）都会导致redis 进程退出
 daemonize yes
 
 # 数据淘汰策略
-# volatile-lru:从设置了过期时间的数据集中，选择最近最久未使用的数据释放；
-# allkeys-lru:从数据集中(包括设置过期时间以及未设置过期时间的数据集中)，选择最近最久未使用的数据释放；
-# volatile-random:从设置了过期时间的数据集中，随机选择一个数据进行释放；
-# allkeys-random:从数据集中(包括了设置过期时间以及未设置过期时间)随机选择一个数据进行入释放；
+# volatile-lru：从设置了过期时间的数据集中，选择最近最少使用的数据释放；
+# allkeys-lru：从数据集中（包括设置过期时间以及未设置过期时间的数据集中），选择最近最少使用的数据释放；
+# volatile-random：从设置了过期时间的数据集中，随机选择一个数据进行释放；
+# allkeys-random：从数据集中（包括了设置过期时间以及未设置过期时间）随机选择一个数据进行释放；
 # volatile-ttl：从设置了过期时间的数据集中，选择马上就要过期的数据进行释放操作；
-# noeviction：不删除任意数据(但 redis 还会根据引用计数器进行释放),这时如果内存不够时，会直接返回错误。
+# noeviction：不删除任意数据（但 redis 还会根据引用计数器进行释放）,这时如果内存不够时，会直接返回错误。
 maxmemory-policy noeviction
 ~~~
 
