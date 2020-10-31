@@ -12,10 +12,10 @@ cat /etc/redhat-release
 
 ~~~shell
 # Add
-firewall-cmd --permanent --zone=public--add-port=80/tcp
+firewall-cmd --permanent --zone=public --add-port=80/tcp
 
 # Remove
-firewall-cmd --permanent --zone=public--remove-port=80/tcp
+firewall-cmd --permanent --zone=public --remove-port=80/tcp
 
 # Reload
 firewall-cmd --reload

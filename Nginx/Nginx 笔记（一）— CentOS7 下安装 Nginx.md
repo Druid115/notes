@@ -20,7 +20,7 @@ yum install -y openssl openssl-devel
 
 ### 2. 下载
 
-- 直接下载 .tar.gz 安装包，地址：https://nginx.org/en/download.html
+直接下载 .tar.gz 安装包，地址：https://nginx.org/en/download.html
 
 ~~~shell
 wget -c https://nginx.org/download/nginx-1.16.1.tar.gz
