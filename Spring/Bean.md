@@ -2,7 +2,7 @@
 
 #### Bean 概念
 
-由 Spring 容器管理的对象统称为 bean 对象。
+由 Spring 容器管理的对象统称为 bean 对象，普通的 Java 对象。
 
 
 
@@ -22,11 +22,11 @@ Spring 容器内部创建 Bean 实例对象常见的有 4 种方式：
 
 - **singleton**
 
-  整个 Spring 容器中只会存在一个 bean 实例，singleton 是 scope 的默认值。通常 Spring 容器在启动的时候，会将 scope 为singleton 的 bean 创建好放在容器中（有个特殊的情况，当 bean 的 lazy 被设置为 true 的时候，表示懒加载，那么使用的时候才会创建），用的时候直接返回。 
+  整个 Spring 容器中只会存在一个 bean 实例，singleton 是 scope 的默认值。**通常 Spring 容器在启动的时候，会将 scope 为singleton 的 bean 创建好放在容器中（有个特殊的情况，当 bean 的 lazy 被设置为 true 的时候，表示懒加载，那么使用的时候才会创建）**，用的时候直接返回。 
 
 - **prototype**
 
-  如果 scope 被设置为 prototype 类型的了，表示这个 bean 是多例的，只有在每次获取的时候才会重新创建 bean实例，且每次获取的 bean 都是不同的实例。
+  如果 scope 被设置为 prototype 类型的了，表示这个 bean 是多例的，只有在**每次获取的时候才会重新创建 bean实例**，且每次获取的 bean 都是不同的实例。
 
 - **request**
 
@@ -38,7 +38,7 @@ Spring 容器内部创建 Bean 实例对象常见的有 4 种方式：
 
 - **application**
 
-  一个 web 应用程序对应一个 bean 实例。通常情况下和 singleton 效果类似的，不过也有不一样的地方，singleton 是每个 Spring 容器中只有一个 bean 实例，一般程序只有一个 Spring 容器。但是，一个应用程序中可以创建多个 Spring 容器，不同的容器中可以存在同名的 bean，但是 sope 为 application 的时候，不管应用中有多少个 Spring 容器，这个应用中同名的 bean 只有一个。
+  一个 web 应用程序对应一个 bean 实例。通常情况下和 singleton 效果类似的，不过也有不一样的地方，singleton 是每个 Spring 容器中只有一个 bean 实例，一般程序只有一个 Spring 容器，但是，一个应用程序中可以创建多个 Spring 容器，不同的容器中可以存在同名的 bean。但是当 bean 的 sope 为 application 的时候，不管应用中有多少个 Spring 容器，这个应用中同名的 bean 只有一个。
 
 - **自定义 scope**
 
