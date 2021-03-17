@@ -1,12 +1,12 @@
-### Bean
+## Bean
 
-#### Bean 概念
+### Bean 概念
 
 由 Spring 容器管理的对象统称为 bean 对象，普通的 Java 对象。
 
 
 
-#### 创建 Bean 实例对象
+### 创建 Bean 实例对象
 
 Spring 容器内部创建 Bean 实例对象常见的有 4 种方式：
 
@@ -18,7 +18,7 @@ Spring 容器内部创建 Bean 实例对象常见的有 4 种方式：
 
 
 
-#### Bean 的作用域
+### Bean 的作用域
 
 - **singleton**
 
@@ -44,9 +44,133 @@ Spring 容器内部创建 Bean 实例对象常见的有 4 种方式：
 
   实现 Scope 接口，将实现类注册到 Spring 容器，使用自定义的 sope。
 
+~~~java
+/**
+ * @ClassName ThreadScope
+ * @Description 自定义本地线程级别的 scope
+ * @Author Ding RD
+ * @Date 2021/3/10 16:51
+ */
+public class ThreadScope implements Scope {
+
+    private static final ThreadLocal<Map<String, Object>> THREAD_SCOPE = new NamedThreadLocal<Map<String, Object>>("SimpleThreadScope") {
+        @Override
+        protected Map<String, Object> initialValue() {
+            return new HashMap(16);
+        }
+    };
+
+    @Override
+    public Object get(String name, ObjectFactory<?> objectFactory) {
+        Map<String, Object> scopeMap = THREAD_SCOPE.get();
+        Object bean = scopeMap.get(name);
+        if (Objects.isNull(bean)) {
+            bean = objectFactory.getObject();
+            scopeMap.put(name, bean);
+        }
+        return bean;
+    }
+
+    @Override
+    public Object remove(String name) {
+        return THREAD_SCOPE.get().remove(name);
+    }
+
+    @Override
+    public void registerDestructionCallback(String s, Runnable runnable) {
+        // bean 作用域范围结束的时候调用的方法
+    }
+
+    @Nullable
+    @Override
+    public Object resolveContextualObject(String s) {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public String getConversationId() {
+        return null;
+    }
+}
 
 
-#### 单例 bean 中使用多例 bean
+
+/**
+ * @ClassName BeanScopeConfig
+ * @Description Bean scope 配置类
+ * @Author Ding RD
+ * @Date 2021/3/10 17:08
+ */
+@Configuration
+public class BeanScopeConfig {
+
+    @Bean
+    public CustomScopeConfigurer customScopeConfigurer() {
+        CustomScopeConfigurer customScopeConfigurer = new CustomScopeConfigurer();
+        Map<String, Object> map = new HashMap<>(1);
+        map.put("threadScope", new ThreadScope());
+        customScopeConfigurer.setScopes(map);
+        return customScopeConfigurer;
+    }
+}
+
+
+
+/**
+ * @ClassName MyScope
+ * @Description 自定义 scope 测试类
+ * @Author Ding RD
+ * @Date 2021/3/10 17:10
+ */
+@Component
+@Scope("threadScope")
+public class MyScope {
+
+    public MyScope() {
+        System.out.println("创建 MyScope 实例");
+    }
+}
+
+
+
+/**
+ * @ClassName DemoController
+ * @Description
+ * @Author Ding RD
+ * @Date 2021/2/1 16:22
+ */
+@Controller
+public class DemoController {
+
+    ApplicationContext applicationContext;
+
+    @Autowired
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
+
+    @GetMapping("/scopeTest")
+    public void scopeTest() {
+
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
+
+        executorService.submit(() -> {
+            System.out.println(Thread.currentThread().getName() + " " + applicationContext.getBean("myScope"));
+            System.out.println(Thread.currentThread().getName() + " " + applicationContext.getBean("myScope"));
+        });
+
+        executorService.submit(() -> {
+            System.out.println(Thread.currentThread().getName() + " " + applicationContext.getBean("myScope"));
+            System.out.println(Thread.currentThread().getName() + " " + applicationContext.getBean("myScope"));
+        });
+    }
+}
+~~~
+
+
+
+### 单例 bean 中使用多例 bean
 
 ~~~java
 public class ServiceA {
