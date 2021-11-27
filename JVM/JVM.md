@@ -28,13 +28,13 @@ Java 平台上的多语言混合编程正成为主流，通过特定领域的语
 
 ### 整体结构
 
-![20201207214145090](../images/20201207214145090.png)
+![JVM 整体结构](../images/20201207214145090.png)
 
 
 
 ### Java 代码执行流程
 
-![20201206160118109](../images/20201206160118109.png)
+![Java 代码执行流程](../images/20201206160118109.png)
 
 
 
@@ -68,9 +68,9 @@ Java 编译器输入的指令流基本上是一种基于栈的指令集架构，
 3. 退出：有如下的几种情况：
    - 程序正常执行结束
    - 程序在执行过程中遇到了异常或错误而异常终止
-   - 由于操作系统用现错误而导致 Java 虚拟机进程终止
+   - 由于操作系统错误而导致 Java 虚拟机进程终止
    - 某线程调用 Runtime 类或 System 类的 exit() 方法，或 Runtime 类的 halt() 方法，并且 Java 安全管理器也允许这次 exit() 或 halt() 操作
-   - 除此之外，JNI（Java Native Interface）规范描述了用 JNI Invocation API 来加载或卸载  Java 虚拟机时，Java 虚拟机的退出情况
+   - 除此之外，JNI（Java Native Interface）规范描述了用 JNI Invocation API 来加载或卸载 Java 虚拟机时，Java 虚拟机的退出情况
 
 
 
