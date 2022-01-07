@@ -38,6 +38,9 @@ cd nginx-1.16.1
 # 使用默认配置
 ./configure
 
+# 指定安装路径
+./configure --prefix=/opt/nginx1.16.1
+
 # 编译安装
 make
 make install
