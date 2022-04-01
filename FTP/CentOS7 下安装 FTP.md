@@ -14,7 +14,7 @@ yum install -y vsftpd
 ### 2. 设置用户账号
 
 ~~~shell
-# 创建用户并指定主目录，这里添加的是 linux 的系统用户，设置不能系统登录可以加上 -s /sbin/nologin -U
+# 创建用户并指定主目录，这里添加的是 linux 的系统用户，设置不能系统登录可以加上 -s /sbin/nologin
 useradd -d /var/ftp/upload -m druid
 # 修改密码
 passwd druid
@@ -216,3 +216,9 @@ ps -ef | grep ftp
 ~~~
 
 之后可在浏览器输入 ftp:// + ip 验证是否启动成功
+
+
+
+
+
+3YrwZ+McUUzHd3eMW
