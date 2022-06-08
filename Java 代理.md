@@ -46,10 +46,8 @@ public interface IService {
 public class ProxyService {
 
     public static void main(String[] args) throws IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-//        // 1. 获取接口对应的代理类
-//        Class<IService> proxyClass = (Class<IService>) Proxy.getProxyClass(IService.class.getClassLoader(), IService.class);
 
-        // 2. 创建代理类的处理器
+        // 创建代理类的处理器
         InvocationHandler invocationHandler = new InvocationHandler() {
             @Override
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
@@ -58,7 +56,12 @@ public class ProxyService {
             }
         };
 
+        // 创建代理实例
         IService proxyService = (IService) Proxy.newProxyInstance(IService.class.getClassLoader(), new Class[]{IService.class}, invocationHandler);
+        
+//        // 获取接口对应的代理类
+//        Class<IService> proxyClass = (Class<IService>) Proxy.getProxyClass(IService.class.getClassLoader(), IService.class);
+//        // 创建代理实例
 //        IService proxyService = proxyClass.getConstructor(InvocationHandler.class).newInstance(invocationHandler);
 
         proxyService.m1();
@@ -120,6 +123,7 @@ CGLIB 是一个强大、高性能的字节码生成库，它用于在运行时�
 public class Service {
 
     public String m1() {
+        this.m2();
         log.info("我是 m1 方法");
         return "Service : m1";
     }

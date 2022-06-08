@@ -51,7 +51,7 @@ grep 'temporary password' /var/log/mysqld.log
 
 mysql -u root -p
 
-ALTER USER 'root'@'localhost' IDENTIFIED BY 'password';
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'password';  
 # 如果密码强度不够，会报 ERROR 1819 (HY000): Your password does not satisfy the current policy requirements
 set global validate_password_policy=0;
 # 会报 ERROR 1193 (HY000): Unknown system variable 'validate_password_policy'，原因是 MySQL8.0 将其改成 validate_password.policy
@@ -60,7 +60,7 @@ set global validate_password.policy=0;
 systemctl restart mysqld.service
 ~~~
 
-
+%MYSQL_HOME%\bin
 
 ### 5. 开放远程连接
 

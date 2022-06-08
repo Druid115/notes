@@ -22,15 +22,15 @@ Spring 容器内部创建 Bean 实例对象常见的有 4 种方式：
 
 - **singleton**
 
-  整个 Spring 容器中只会存在一个 bean 实例，singleton 是 scope 的默认值。**通常 Spring 容器在启动的时候，会将 scope 为singleton 的 bean 创建好放在容器中（有个特殊的情况，当 bean 的 lazy 被设置为 true 的时候，表示懒加载，那么使用的时候才会创建）**，用的时候直接返回。 
+  整个 Spring 容器中只会存在一个 bean 实例，singleton 是 scope 的默认值。**通常 Spring 容器在启动的时候，会将 scope 为singleton 的 bean 创建好放在容器中（当 bean 的 lazy 被设置为 true 的时候，表示懒加载，使用的时候才会创建）**，用的时候直接返回。 
 
 - **prototype**
 
-  如果 scope 被设置为 prototype 类型的了，表示这个 bean 是多例的，只有在**每次获取的时候才会重新创建 bean实例**，且每次获取的 bean 都是不同的实例。
+  表示这个 bean 是多例的，只有在**每次获取的时候才会重新创建 bean实例**，且每次获取的 bean 都是不同的实例。
 
 - **request**
 
-  当一个 bean 的作用域为 request，表示在一次 http 请求中，一个 bean 对应一个实例；对每个 http 请求都会创建一个 bean 实例，request 结束的时候，这个 bean 的生命周期也就结束了。
+  表示在一次 http 请求中，一个 bean 对应一个实例。对每个 http 请求都会创建一个 bean 实例，request 结束的时候，这个 bean 的生命周期也就结束了。
 
 - **session**
 
@@ -38,7 +38,7 @@ Spring 容器内部创建 Bean 实例对象常见的有 4 种方式：
 
 - **application**
 
-  一个 web 应用程序对应一个 bean 实例。通常情况下和 singleton 效果类似的，不过也有不一样的地方，singleton 是每个 Spring 容器中只有一个 bean 实例，一般程序只有一个 Spring 容器，但是，一个应用程序中可以创建多个 Spring 容器，不同的容器中可以存在同名的 bean。但是当 bean 的 sope 为 application 的时候，不管应用中有多少个 Spring 容器，这个应用中同名的 bean 只有一个。
+  一个 web 应用程序对应一个 bean 实例。通常情况下和 singleton 效果类似，不过也有不一样的地方，singleton 是每个 Spring 容器中只有一个 bean 实例，一般只有一个 Spring 容器，但一个应用程序中可以创建多个 Spring 容器，不同的容器中可以存在同名的 bean。但是当 bean 的 sope 为 application 时，不管应用中有多少个 Spring 容器，这个应用中同名的 bean 只有一个。
 
 - **自定义 scope**
 
@@ -188,7 +188,7 @@ public class ServiceB {
 }
 ~~~
 
-当 bean 中存在依赖关系时，被依赖的 bean 在当前 bean 中自始至终都是同一个实例。如果需要每次获取不同的被依赖的 bean 的实例，可以在 serviceB 中加个方法去获取 Spring 容器，再从容器中获取 ServiceA，那么每次获取到的都是不同的serviceA实例。
+当 bean 中存在依赖关系时，被依赖的 bean 在当前 bean 中自始至终都是同一个实例。如果需要每次获取不同的被依赖的 bean 的实例，可以在 serviceB 中加个方法去获取 Spring 容器，再从容器中获取 ServiceA，每次获取到的都是不同的 ServiceA 实例。
 
 ~~~java
 public class ServiceB implements ApplicationContextAware {
@@ -198,6 +198,7 @@ public class ServiceB implements ApplicationContextAware {
     public void say() {        
         ServiceA serviceA = this.getServiceA();        
     }
+    
     public ServiceA getServiceA() {        
         return this.context.getBean(ServiceA.class);
     }

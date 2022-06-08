@@ -79,7 +79,7 @@ public @interface Retention {
 
 
 public enum RetentionPolicy {
-	/** 注解只保留在源码中，编译为字节码之后就丢失了，也就是class文件中就不存在了 */
+	/** 注解只保留在源码中，编译为字节码之后就丢失了，也就是 class 文件中就不存在了 */
 	SOURCE,
 	/** 注解只保留在源码和字节码中，运行阶段会丢失 */
 	CLASS,
