@@ -1,4 +1,4 @@
-#### HashMap
+## HashMap
 
 **Hash** 也称散列、哈希，基本原理就是把任意长度的输入，通过 Hash 算法变成固定长度的输出。原始数据映射后的二进制串就是哈希值。Hash 的特点：
 
@@ -10,7 +10,7 @@
 
 
 
-#### 静态常量
+### 静态常量
 
 ~~~java
 /**
@@ -70,7 +70,7 @@ static final int MIN_TREEIFY_CAPACITY = 64;
 
 
 
-#### 核心属性
+### 核心属性
 
 ~~~java
 /**
@@ -134,7 +134,7 @@ final float loadFactor;
 
 
 
-#### 构造函数
+### 构造函数
 
 ~~~java
 /**
@@ -195,7 +195,7 @@ public HashMap(Map<? extends K, ? extends V> m) {
 
 
 
-#### 静态工具方法
+### 静态工具方法
 
 ~~~java
 /**
@@ -248,7 +248,7 @@ static final int tableSizeFor(int cap) {
 
 
 
-#### put 方法
+### put 方法
 
 ~~~java
 /**
@@ -349,7 +349,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
 
 
 
-#### resize 方法
+### resize 方法
 
 ~~~java
 /**
@@ -476,4 +476,3 @@ final HashMap.Node<K,V>[] resize() {
     return newTab;
 }
 ~~~
-
