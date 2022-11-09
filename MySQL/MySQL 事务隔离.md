@@ -54,7 +54,7 @@
 
 begin / start transaction 命令并不是一个事务的起点，在执行到它们之后的第一个操作 InnoDB 表的语句（第一个快照读语句），事务才真正启动。如果想要马上启动一个事务，可以使用 `start transaction with consistent snapshot` 这个命令。
 
-建议使用 set autocommit = 1, 通过显式语句的方式来启动事务。在这种情况下，如果考虑多一次交互问题，可以使用 commit work and chain 语法，提交事务并自动启动下一个事务。
+建议使用 set autocommit = 1，通过显式语句的方式来启动事务。在这种情况下，如果考虑多一次交互问题，可以使用 commit work and chain 语法，提交事务并自动启动下一个事务。
 
 可以在 information_schema 库的 innodb_trx 这个表中查询长事务：
 
