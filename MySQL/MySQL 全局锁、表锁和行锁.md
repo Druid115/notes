@@ -15,6 +15,33 @@
 1. 在有些系统中，readonly 的值会被用来做其他逻辑，比如用来判断一个库是主库还是备库，修改 global 变量的方式影响面更大。
 2. 在异常处理机制上有差异。如果执行 FTWRL 命令之后由于客户端发生异常断开，那么 MySQL 会自动释放这个全局锁，整个库回到可以正常更新的状态。而将整个库设置为 readonly 之后，如果客户端发生异常，则数据库就会一直保持 readonly 状态，这样会导致整个库长时间处于不可写状态，风险较高。
 
+当备库用 –single-transaction 做逻辑备份的时候，如果从主库的 binlog 传来一个 DDL 语句会怎么样？
+
+~~~mysql
+# 在备份开始的时候，为了确保 RR（可重复读）隔离级别，再设置一次 RR 隔离级别。
+Q1:SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+# 启动事务，这里用 WITH CONSISTENT SNAPSHOT 确保这个语句执行完就可以得到一个一致性视图。
+Q2:START TRANSACTION  WITH CONSISTENT SNAPSHOT；
+/* other tables */
+
+Q3:SAVEPOINT sp; # 设置一个保存点，这个很重要。
+/* 时刻 1 */
+Q4:show create table `t1`; # 拿到表结构
+/* 时刻 2 */
+Q5:SELECT * FROM `t1`; # 正式导数据
+/* 时刻 3 */
+Q6:ROLLBACK TO SAVEPOINT sp; # 回滚到保存点，释放 t1 的 MDL 锁
+/* 时刻 4 */
+/* other tables */
+~~~
+
+假定表的数据量不大，很快能够完成备份。
+
+1. 如果在 Q4 语句执行之前到达，没有影响，备份拿到的是 DDL 后的表结构。
+2. 如果在 “时刻 2” 到达，则表结构被改过，Q5 执行的时候，报 Table definition has changed, please retry transaction，mysqldump 终止。
+3. 如果在 “时刻2” 和 “时刻3” 之间到达，mysqldump 占着 t1 的 MDL 读锁，binlog 被阻塞，现象：主从延迟，直到 Q6 执行完成。
+4. 从 “时刻4” 开始，mysqldump 释放了 MDL 读锁，备份拿到的是 DDL 前的表结构。
+
 
 
 ### 表级锁
