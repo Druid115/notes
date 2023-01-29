@@ -71,7 +71,7 @@ Kafka 中消息以 topic 进行分类，topic 是逻辑上的概念，而 partit
 
 index 和 log 文件以当前 segment 的第一条消息的 offset 命名。index 中会记录相对于第一条消息的 offset 和 postition（消息的字节数，用于计算物理地址）。Kafka 不会每个消息都保存索引，Kafka 采用了**稀疏索引**的方式，记录一个基准的索引，然后通过计算去获得需要的 offset 所在的索引。
 
-查找过程为：Kafka 先通过二分查找确定消息所处的 log 文件，再根据index 文件中的索引信息找到数据的起始位置，其中 index 文件中每个数据块的大小是固定的，因此能迅速定位 offset 在文件中的位置。
+查找过程为：Kafka 先通过二分查找确定消息所处的 log 文件，再根据 index 文件中的索引信息找到数据的起始位置，其中 index 文件中每个数据块的大小是固定的，因此能迅速定位 offset 在文件中的位置。
 
 
 
@@ -216,7 +216,7 @@ Kafka 从 0.11 版本开始引入了事务支持。事务可以保证 Kafka 在 
 
 #### consumer 事务
 
-上述事务机制主要是从 producer 方面考虑，对于 consumer 而言，事务的保证就会相对较弱，尤其无法保证 commit 的信息被精确消费。这是由于 consumer 可以通过 offset 访问任意信息，而且不同的 Segment File 生命周期不同，同一事务的消息可能会出现重启后被 删除的情况。
+上述事务机制主要是从 producer 方面考虑，对于 consumer 而言，事务的保证就会相对较弱，尤其无法保证 commit 的信息被精确消费。这是由于 consumer 可以通过 offset 访问任意信息，而且不同的 Segment File 生命周期不同，同一事务的消息可能会出现重启后被删除的情况。
 
 
 
@@ -235,4 +235,3 @@ Kafka 的 producer 发送消息采用的是异步发送的方式。在消息发�
 batch.size：只有数据积累到 batch.size 之后，sender 才会发送数据。 
 
 linger.ms：如果数据迟迟未达到 batch.size，sender 等待 linger.time 之后就会发送数据。
-
