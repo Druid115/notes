@@ -2,11 +2,11 @@
 
 **Hash** 也称散列、哈希，基本原理就是把任意长度的输入，通过 Hash 算法变成固定长度的输出。原始数据映射后的二进制串就是哈希值。Hash 的特点：
 
-- 从 Hash 值不可以反向推导出原始的数据；
-- 哈希算法的执行效率要高效，长的文本也能快速地计算出哈希值；
-- 哈希算法的冲突概率要小。
+- 从 Hash 值不可以反向推导出原始的数据
+- 哈希算法的执行效率要高效，长的文本也能快速地计算出哈希值
+- 哈希算法的冲突概率要小
 
-冲突：由于 Hash 的原理是将输入空间的值映射成 Hash 空间内，而 Hash 空间远小于输入空间，根据抽屉原理，一定会存在将不同输入映射成相同输出的情况。
+冲突：由于 Hash 的原理是将输入空间的值映射成 Hash 空间内，而 Hash 空间远小于输入空间，根据抽屉原理（十个苹果放九个抽屉，至少会有一个抽屉内的苹果数量不少于两个），一定会存在将不同输入映射成相同输出的情况。
 
 
 
@@ -16,7 +16,7 @@
 /**
  * The default initial capacity - MUST be a power of two.
  *
- * 数组默认长度
+ * 数组默认长度，必须是 2 的倍数
  */
 static final int DEFAULT_INITIAL_CAPACITY = 1 << 4;
 
@@ -63,7 +63,7 @@ static final int UNTREEIFY_THRESHOLD = 6;
  * Should be at least 4 * TREEIFY_THRESHOLD to avoid conflicts
  * between resizing and treeification thresholds.
  *
- * 当哈希表中所有元素超过该值，才会允许树化
+ * 当哈希表中所有元素个数超过该值，才会允许树化
  */
 static final int MIN_TREEIFY_CAPACITY = 64;
 ~~~
@@ -94,7 +94,7 @@ transient Set<Map.Entry<K,V>> entrySet;
 /**
  * The number of key-value mappings contained in this map.
  *
- * 当前元素个数
+ * 哈希表中当前元素个数
  */
 transient int size;
 
@@ -105,7 +105,7 @@ transient int size;
  * rehash).  This field is used to make iterators on Collection-views of
  * the HashMap fail-fast.  (See ConcurrentModificationException).
  *
- * 当前哈希表结构修改次数
+ * 当前哈希表结构修改次数，新增或者删除操作
  */
 transient int modCount;
 
@@ -114,7 +114,7 @@ transient int modCount;
  *
  * @serial
  *
- * 扩容阈值
+ * 扩容阈值，哈希表中的元素超过该值时，触发扩容
  */
 // (The javadoc description is true upon serialization.
 // Additionally, if the table array has not been allocated, this
@@ -186,6 +186,8 @@ public HashMap() {
  *
  * @param   m the map whose mappings are to be placed in this map
  * @throws  NullPointerException if the specified map is null
+ *
+ * 根据已有 Map 去构建一个 Map
  */
 public HashMap(Map<? extends K, ? extends V> m) {
     this.loadFactor = DEFAULT_LOAD_FACTOR;
@@ -233,6 +235,13 @@ static final int hash(Object key) {
  *
  * 返回一个大于等于当前值的数字，该数字一定是 2 的次方
  *
+ * n =  10 - 1 = 9;
+ * 0b1001 | 0b0100 => 0b1101
+ * 0b1101 | 0b0011 => 0b1111
+ * 0b1111 | 0b0000 => 0b1111 => 15
+ * return 16
+ *
+ * 该方法等效于把原始数字的二进制位数，从最高位开始全部置为 1
  * 0001 0110 1100 => 0001 1111 1111 + 1 => 0010 0000 0000
  */
 static final int tableSizeFor(int cap) {
@@ -291,6 +300,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
     if ((tab = table) == null || (n = tab.length) == 0)
         n = (tab = resize()).length;
     
+    // 寻址找到的桶刚好为 null，直接创建一个键值对扔进去
     if ((p = tab[i = (n - 1) & hash]) == null)
         tab[i] = newNode(hash, key, value, null);
     
@@ -328,7 +338,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
             }
         }
         
-        // 找到与要插入元素的键值一样的元素，替换其值
+        // 找到了与要插入元素的键值一样的元素，替换其值
         if (e != null) { // existing mapping for key
             V oldValue = e.value;
             if (!onlyIfAbsent || oldValue == null)
@@ -372,7 +382,7 @@ final HashMap.Node<K,V>[] resize() {
     int oldThr = threshold;
     
     int newCap, newThr = 0;
-    // Hash 已经初始化过，是一次正常扩容
+    // Hash 表已经初始化过，是一次正常扩容
     if (oldCap > 0) {
         // 数组大小已达到最大阈值，无法再次扩容
         if (oldCap >= MAXIMUM_CAPACITY) {
@@ -395,7 +405,7 @@ final HashMap.Node<K,V>[] resize() {
         newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
     }
     
-    // 1、2 两种情况需要通过计算得到新的扩容阈值
+    // 1、2 两种情况不满足时，需要通过计算得到新的扩容阈值
     if (newThr == 0) {
         float ft = (float)newCap * loadFactor;
         newThr = (newCap < MAXIMUM_CAPACITY && ft < (float)MAXIMUM_CAPACITY ?
@@ -438,9 +448,9 @@ final HashMap.Node<K,V>[] resize() {
                      * 
                      * 新的位置由高位决定
                      **/
-                    // 低位链表：扩容后存储的下标位置与原下标位置一致
+                    // 低位链表：扩容后存储的下标位置与原数组下标位置一致
                     HashMap.Node<K,V> loHead = null, loTail = null;
-                    // 高位链表：扩容后存储的下标位置为原下标位置 + 扩容前数组的长度
+                    // 高位链表：扩容后存储的下标位置为原数组下标位置 + 扩容前数组的长度
                     HashMap.Node<K,V> hiHead = null, hiTail = null;
                     HashMap.Node<K,V> next;
                     do {

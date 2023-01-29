@@ -1,4 +1,4 @@
-## CentOS7 下安装 MySQL8 
+## CentOS7 下安装 MySQL 8
 
 ### 1. 添加 yum 源
 

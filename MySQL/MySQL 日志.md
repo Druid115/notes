@@ -6,9 +6,9 @@ MySQL 里经常说到的 WAL（Write-Ahead Logging）技术，它的关键点就
 
 ### redo log
 
-当有一条记录需要更新的时候，InnoDB 引擎就会先把记录写到 redo log 里面并更新内存，这时更新就算完成了。之后，InnoDB 引擎会在适当的时候，将这个操作记录更新到磁盘里面，往往是在系统比较空闲的时候做。
+当有一条记录需要更新的时候，InnoDB 引擎就会先把记录写到 redo log 里面并更新内存，这时更新就算完成了。之后，InnoDB 引擎会在适当的时候，将这个操作记录更新到磁盘里面，这个更新往往是在系统比较空闲的时候做。
 
-InnoDB 的 redo log 是固定大小的，比如可以配置为一组 4 个文件，每个文件的大小是 1 GB。从头开始写，写到末尾就又回到开头循环写。innodb_flush_log_at_trx_commit 这个参数设置成1的时候，表示每次事务的 redo log 都直接持久化到磁盘。
+InnoDB 的 redo log 是固定大小的，比如可以配置为一组 4 个文件，每个文件的大小是 1 GB。从头开始写，写到末尾就又回到开头循环写。innodb_flush_log_at_trx_commit 这个参数设置成 1 的时候，表示每次事务的 redo log 都直接持久化到磁盘。
 
 有了 redo log，InnoDB 就可以保证即使数据库发生异常重启，之前提交的记录都不会丢失，这个能力称为 **crash-safe**。
 
