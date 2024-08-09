@@ -92,3 +92,7 @@ df -h
 du -h -x --max-depth=1
 ~~~
 
+
+
+chkconfig –list **查看当前的开机启动服务**
+

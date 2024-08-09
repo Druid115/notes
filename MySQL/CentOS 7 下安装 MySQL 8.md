@@ -83,3 +83,4 @@ grant all privileges on *.* to 'root'@'%' identified by 'password' with grant op
 # 正确写法（with grant option 这个选项表示该用户可以将自己拥有的权限授权给别人）
 grant all privileges on *.* to 'root'@'%' with grant option;
 ~~~
+

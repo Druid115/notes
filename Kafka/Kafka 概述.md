@@ -127,7 +127,7 @@ Kafka 为用户提供了三种可靠性级别，用户根据对可靠性和延�
 
 - HW 和 LEO
 
-![](../images/20210707212533888.png)
+![HW 和 LEO](../images/20210707212533888.png)
 
 LEO：指的是每个副本最大的 offset；
 
@@ -190,7 +190,7 @@ Kafka 的 producer 生产数据，要写入到 log 文件中，写的过程是�
 
 #### 零复制技术
 
-![](../images/20210712220509168.png)
+![零复制](../images/20210712220509168.png)
 
 
 
@@ -198,7 +198,7 @@ Kafka 的 producer 生产数据，要写入到 log 文件中，写的过程是�
 
 Kafka 集群中有一个 broker 会被选举为 Controller，负责管理集群 broker 的上下线，所有 topic 的分区副本分配和 leader 选举等工作。Controller 的管理工作都是依赖于 Zookeeper 的。
 
-![](../images/20210712220813166.png)
+![Zookeeper 在 Kafka 中的作用](../images/20210712220813166.png)
 
 
 
@@ -228,7 +228,7 @@ Kafka 从 0.11 版本开始引入了事务支持。事务可以保证 Kafka 在 
 
 Kafka 的 producer 发送消息采用的是异步发送的方式。在消息发送的过程中，涉及到了 main 线程和 sender 线程，以及一个线程共享变量 RecordAccumulator。main 线程将消息发送给 RecordAccumulator，sender 线程不断从 RecordAccumulator 中拉取消息发送到 Kafka broker。
 
-![](../images/20210719211030128.png)
+![producer 流程](../images/20210719211030128.png)
 
 相关参数： 
 

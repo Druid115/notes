@@ -14,5 +14,5 @@
 
   - 可指定是公平锁（先等待的线程先获得锁）还是非公平锁，synchronized 只能是非公平锁；
   - 提供了一个 Condition 类，可以分组唤醒需要唤醒的线程；
-  - 提供能够中断等待锁的线程的机制，lock.lockInterruptibly()。
+  - 提供能够中断等待锁的线程的机制，`lock.lockInterruptibly()`。
 
