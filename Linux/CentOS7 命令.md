@@ -94,5 +94,39 @@ du -h -x --max-depth=1
 
 
 
-chkconfig –list **查看当前的开机启动服务**
+- 查看开机启动服务
+
+~~~shell
+chkconfig –list
+~~~
+
+
+
+- 修改时间
+
+~~~shell
+# 查看当前系统时间
+date
+
+# 修改当前系统时间 
+date -s "2024-12-10 11:10:30"
+
+# 查看硬件时间
+hwclock --show
+
+# 修改硬件时间
+hwclock --set --date "2024-12-10 11:10:30"
+
+# 同步系统时间和硬件时间
+hwclock --hctosys
+
+# 修改时区
+mv /etc/localtime /etc/localtime.bak
+ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+# 保存时钟
+clock -w
+~~~
+
+
 
